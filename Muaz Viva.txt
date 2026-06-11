@@ -1,0 +1,32 @@
+Muaz
+
+Difference between var, let, and const? 10/2
+
+What are primitive data types?10/10
+
+Difference between null and undefined?10/7
+
+What is the difference between == and ===?10/10
+
+What causes an infinite loop?10/6
+
+Convert string to uppercase?10/0
+
+What is an array?10/9
+
+push() vs pop()?10/10
+
+Why is the DOM used in JavaScript?10/10
+
+Difference between onclick and addEventListener?10/5
+
+How do you remove an element?10/0
+
+How do you change styles using JavaScript?10/5
+
+What is typeof? 10/10
+
+
+Final Result: 84/130
+Percentage: 64.62%
+Marks out of 10: 6.5/10 
