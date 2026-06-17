@@ -1,12 +1,12 @@
 {
-    "name": "Hafiz Abdullah",
-    "short_name": "Abdullah",
+    "name": "Muaz Asharaf",
+    "short_name": "Muaz",
     "start_url": "/index.html",
     "display": "standalone",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "scope": ".",
-    "description": "This is a personal Portfolio of Hafiz Abdullah",
+    "description": "This is a personal Portfolio of Muaz Asharaf",
     "icons": [
         {
             "src": "/images/ico/icon.png",

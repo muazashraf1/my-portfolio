@@ -1,7 +1,7 @@
 <?php
 
 	// site owner
-	$site_name = 'Hafiz Abdullah Portfolio';
+	$site_name = 'Muaz Asharaf Portfolio';
 	$sender_domain = 'habdullah4510@gmail.com';
 	$to = 'fergaoui.ayman@gmail.com';
 	
