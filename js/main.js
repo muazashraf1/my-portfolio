@@ -975,20 +975,84 @@
         if (contactForm.valid()) {
           NProgress.start();
           $submit.addClass("active loading");
-          var formValues = contactForm.serialize();
 
-          $.post(contactForm.attr("action"), formValues, function (data) {
-            if (data == "success") {
-              contactForm.clearForm();
-            } else {
-              $alert.addClass("error");
-            }
+          // Antispam Honeypot check
+          var botDetected = false;
+          var urlValue = contactForm.find('input[name="url"]').val();
+          if (urlValue && urlValue.trim() !== '') {
+            botDetected = true;
+          }
+
+          if (botDetected) {
+            contactForm.clearForm();
+            $alert.removeClass("error");
             NProgress.done();
+            $submit.removeClass("active loading");
             $alert.show();
             setTimeout(function () {
               $alert.hide();
             }, 6000);
-          });
+            return false;
+          }
+
+          var proceedWithSend = function () {
+            // Check if EmailJS is configured
+            var emailjsConfigured = (
+              typeof emailjs !== "undefined" &&
+              typeof EMAILJS_CONFIG !== "undefined" &&
+              EMAILJS_CONFIG.publicKey &&
+              EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY' &&
+              EMAILJS_CONFIG.templateId &&
+              EMAILJS_CONFIG.templateId !== 'YOUR_TEMPLATE_ID'
+            );
+
+            if (!emailjsConfigured) {
+              console.error("EmailJS credentials are missing. Please configure .env");
+              alert("EmailJS is not fully configured yet! Please check that your .env file contains EMAILJS_PUBLIC_KEY and EMAILJS_TEMPLATE_ID.");
+              $submit.removeClass("active loading");
+              NProgress.done();
+              return false;
+            }
+
+            // Initialize EmailJS
+            emailjs.init({
+              publicKey: EMAILJS_CONFIG.publicKey
+            });
+
+            // Send using EmailJS
+            emailjs.sendForm(
+              EMAILJS_CONFIG.serviceId,
+              EMAILJS_CONFIG.templateId,
+              contactForm[0]
+            ).then(function(response) {
+              console.log('EmailJS Success:', response.status, response.text);
+              contactForm.clearForm();
+              $alert.removeClass("error");
+              NProgress.done();
+              $submit.removeClass("active loading");
+              $alert.show();
+              setTimeout(function () {
+                $alert.hide();
+              }, 6000);
+            }, function(error) {
+              console.error('EmailJS Error:', error);
+              $alert.addClass("error");
+              NProgress.done();
+              $submit.removeClass("active loading");
+              $alert.show();
+              setTimeout(function () {
+                $alert.hide();
+              }, 6000);
+            });
+          };
+
+          if (window.EMAILJS_CONFIG && window.EMAILJS_CONFIG.promise) {
+            window.EMAILJS_CONFIG.promise.then(proceedWithSend).catch(function () {
+              proceedWithSend();
+            });
+          } else {
+            proceedWithSend();
+          }
         }
         return false;
       });
