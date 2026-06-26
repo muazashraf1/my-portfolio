@@ -1007,8 +1007,8 @@
             );
 
             if (!emailjsConfigured) {
-              console.error("EmailJS credentials are missing. Please configure .env");
-              alert("EmailJS is not fully configured yet! Please check that your .env file contains EMAILJS_PUBLIC_KEY and EMAILJS_TEMPLATE_ID.");
+              console.error("EmailJS credentials are missing. Please configure js/email-config.js");
+              alert("EmailJS is not fully configured yet! Please check that your js/email-config.js file contains valid EMAILJS_PUBLIC_KEY and EMAILJS_TEMPLATE_ID.");
               $submit.removeClass("active loading");
               NProgress.done();
               return false;
